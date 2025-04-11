@@ -1,4 +1,3 @@
-
 import AVKit
 import MediaPlayer
 import AVFoundation
@@ -210,7 +209,7 @@ public class initAvPlayerTracking: NSObject {
         guard lastEvent.playbackStartDate != nil else {
             return
         }
-        dispatchEvent(event: "variantChanged", metadata: ["video_source_bitrate" : Int(advertisedBitrate)])
+        dispatchEvent(event: "variantChanged", metadata: ["video_source_bitrate" : abs(Int(advertisedBitrate))])
     }
     
     public func isPausedWhileAirPlaying() -> Bool {
@@ -451,7 +450,6 @@ public class initAvPlayerTracking: NSObject {
             "player_width": Int(self.avPlayerLayer?.bounds.width ?? 0),
             "player_height": Int(self.avPlayerLayer?.bounds.height ?? 0),
             "player_is_paused": initiatedAvPlayer?.timeControlStatus == .paused,
-            "player_autoplay_on": "false",
             "video_source_duration": ((duration ?? 0) * 1000)
         ]
         
