@@ -88,7 +88,7 @@ public class initAvPlayerTracking: NSObject {
             } else {
                 dispatchTimeUpdateEvent()
             }
-            self.computeDrift()
+            self.seekTracker()
             self.updateLastPlayheadTime()
         }
         
@@ -334,7 +334,7 @@ public class initAvPlayerTracking: NSObject {
         }
         dispatchEvent(event: "play", metadata: [:])
         videoTransitionState = "play"
-        self.computeDrift()
+        self.seekTracker()
         self.updateLastPlayheadTime()
     }
     
@@ -358,14 +358,14 @@ public class initAvPlayerTracking: NSObject {
         }
         dispatchEvent(event: "pause", metadata: [:])
         videoTransitionState = "paused"
-        self.computeDrift()
+        self.seekTracker()
     }
     
     public func getTimeObserverInternal() -> CMTime {
         return CMTimeMakeWithSeconds(0.1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
     }
     
-    public func computeDrift() {
+    public func seekTracker() {
         
         if !isPlayStarted {
             return
