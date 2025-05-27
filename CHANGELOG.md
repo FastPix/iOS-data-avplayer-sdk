@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.4]
+- Added `requset_hostname` and `request_url` parameters in the requestFailed event. 
+
 ## [1.0.3]
 - Updated iOS Video Data Core.
 

@@ -123,6 +123,10 @@ public class initAvPlayerTracking: NSObject {
     
     @objc public func handlePlayerItemNewErrorLogEntry(_ notification: Notification) {
         
+        let videoURL: String = (initiatedAvPlayer?.currentItem?.asset as? AVURLAsset)?.url.absoluteString ?? ""
+        let url = URL(string: videoURL)
+        let host = url?.host
+        
         guard let playerItem = notification.object as? AVPlayerItem else {
             return
         }
@@ -135,9 +139,11 @@ public class initAvPlayerTracking: NSObject {
             if !isEnded {
                 
                 dispatchEvent(event: "requestFailed", metadata: [
-                    "request_error" : errorLogEvent.errorComment ?? "",
+                    "request_error" : errorLogEvent.errorDomain,
                     "request_error_code" : String(errorLogEvent.errorStatusCode),
-                    "request_error_text" : errorLogEvent.errorDomain
+                    "request_error_text" : errorLogEvent.errorComment ?? "",
+                    "request_hostname" : host as Any,
+                    "request_url" : videoURL
                 ])
             }
         }
