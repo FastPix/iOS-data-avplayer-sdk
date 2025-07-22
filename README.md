@@ -7,6 +7,7 @@
 - **Error Management:** Identify and resolve playback failures quickly with detailed error reports.
 - **Customizable Tracking:** Flexible configuration to match your specific monitoring needs.
 - **Centralized Dashboard:** Visualize and compare metrics on the [FastPix dashboard](https://dashboard.fastpix.io) to make data-driven decisions.
+- **Compatible with tvOS:** Monitor and track video playback and analytics specifically on Apple TV when using AVPlayer, just like on iOS.
 
 # Prerequisites:
 
@@ -134,6 +135,12 @@ fpDataSDK.dispatchEvent(event: "videoChange", metadata: [
 ])
 ```
 
+# Supporting tvOS :
+ 
+Alongside iOS, the FastPix Video Data Core SDK also supports tvOS, allowing you to collect detailed playback analytics from your Apple TV apps when using AVPlayer. You can track viewer engagement, playback quality, errors, and custom events on Apple TV just as you do on iOS.
+ 
+We’ve tested the SDK on tvOS to ensure a smooth experience, but if you encounter any issues or have questions, feel free to reach out to us.
+ 
 # Detailed Usage:
 
 For more detailed steps and advanced usage, please refer to the official [FastPix Documentation](https://docs.fastpix.io/docs/av-player-ios).

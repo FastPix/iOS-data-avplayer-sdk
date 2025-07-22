@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.5]
+- Added support for tvOS, enabling all existing features — including engagement tracking, playback quality monitoring, error reporting, and custom metadata — on Apple TV.
+- Updated iOS Video Data Core.
+
 ## [1.0.4]
 - Added `requset_hostname` and `request_url` parameters in the requestFailed event. 
 

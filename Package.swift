@@ -18,7 +18,7 @@ let package = Package(
     ],
     dependencies: [
         // Add the Git URL package dependency here
-        .package(url: "https://github.com/FastPix/iOS-core-data-sdk.git", from: "1.0.3")
+        .package(url: "https://github.com/FastPix/iOS-core-data-sdk.git", from: "v1.0.4")
     ],
     targets: [
         .target(
