@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.6]
+- Updated iOS Data Core SDK by updating the SDK’s default metrics collection domain to improve endpoint reliability and alignment with current infrastructure.
+
 ## [1.0.5]
 - Added support for tvOS, enabling all existing features including engagement tracking, playback quality monitoring, error reporting, and custom metadata on Apple TV.
 - Updated iOS Video Data Core.
