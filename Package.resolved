@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/FastPix/iOS-core-data-sdk.git",
       "state" : {
-        "revision" : "0f156873472227c0d8366097e39e8c9c87cf5a8f",
-        "version" : "1.0.5"
+        "revision" : "1c349f3095ebd15d6fa221bc8f4d0456a95f7b1f",
+        "version" : "1.0.6"
       }
     }
   ],

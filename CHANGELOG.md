@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.7]
+- Updated iOS Data Core SDK.
+- Code standardization updates applied across the SDK to align with best practices and strengthen overall stability.
+
 ## [1.0.6]
 - Updated iOS Data Core SDK by updating the SDK’s default metrics collection domain to improve endpoint reliability and alignment with current infrastructure.
 
