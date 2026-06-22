@@ -1,4 +1,4 @@
-**FastPix Video Data AVPlayer** enhances the integration steps with [AVPlayer](https://github.com/iOS-video-data-avplayer), enabling the collection of player analytics. It enables automatic tracking of video performance metrics, making the data readily available on the [FastPix dashboard](https://dashboard.fastpix.com) for monitoring and analysis. While the SDK is developed in Swift, the published spm package currently includes only the Swift output.
+**FastPix Video Data AVPlayer** enhances the integration steps with [AVPlayer](https://github.com/FastPix/iOS-data-avplayer-sdk), enabling the collection of player analytics. It enables automatic tracking of video performance metrics, making the data readily available on the [FastPix dashboard](https://dashboard.fastpix.com) for monitoring and analysis. While the SDK is developed in Swift, the published spm package currently includes only the Swift output.
 
 # Key Features:
 
