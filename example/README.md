@@ -6,21 +6,80 @@ to collect playback analytics from an `AVPlayerViewController`.
 
 ## Requirements
 
-- Xcode 15 or later
-- iOS 14.0+ deployment target
+- macOS with **Xcode 15 or later**
+- **iOS 14.0+** simulator or device
+- A **FastPix Workspace Key** — grab it from the
+  [FastPix dashboard](https://dashboard.fastpix.com) under **Workspaces**
+- (Device only) an Apple ID / signing team configured in Xcode
 
-## Running the example
+## How to run this app
 
-1. Open `AVPlayerExample.xcodeproj` in Xcode.
-2. Xcode resolves the Swift Package dependencies automatically
-   (`FastpixVideoDataAVPlayer` and its `FastpixiOSVideoDataCore` dependency).
-   If it doesn't, choose **File → Packages → Resolve Package Versions**.
-3. Open `AVPlayerExample/PlayerViewController.swift` and set `workspaceKey`
-   to the Workspace Key from your
-   [FastPix dashboard](https://dashboard.fastpix.com) (Workspaces section).
-   Optionally edit the `samples` list in `HomeViewController.swift` to point
-   at your own FastPix playback URLs.
-4. Select a simulator or device and run.
+### 1. Get the project
+
+If you cloned the SDK repo, the example lives in the `example/` folder:
+
+```bash
+git clone https://github.com/FastPix/iOS-data-avplayer-sdk.git
+cd iOS-data-avplayer-sdk/example
+```
+
+### 2. Open it in Xcode
+
+```bash
+open AVPlayerExample.xcodeproj
+```
+
+Or launch Xcode → **File → Open…** → select `AVPlayerExample.xcodeproj`.
+
+### 3. Let Swift Package Manager resolve dependencies
+
+On first open, Xcode automatically fetches the packages
+(`FastpixVideoDataAVPlayer` and its `FastpixiOSVideoDataCore` dependency).
+Wait until the progress spinner in the toolbar finishes. If it doesn't start,
+choose **File → Packages → Resolve Package Versions**.
+
+### 4. Add your Workspace Key
+
+Open `AVPlayerExample/PlayerViewController.swift` and replace the placeholder:
+
+```swift
+// Replace with the Workspace Key from your FastPix dashboard.
+private let workspaceKey = "YOUR_WORKSPACE_KEY"
+```
+
+Without a valid key the app still plays video, but the player screen shows an
+orange **"Add your Workspace Key"** badge and no analytics are sent.
+(Optionally edit the `samples` list in `HomeViewController.swift` to play your
+own FastPix HLS URLs.)
+
+### 5. Pick a destination and run
+
+1. In the toolbar's scheme/destination selector, choose the **AVPlayerExample**
+   scheme and a target:
+   - **Simulator** — e.g. *iPhone 15 Pro* (no signing needed).
+   - **Physical device** — select **Signing & Capabilities**, pick your **Team**
+     so Xcode provisions the app, then plug in / select the device.
+2. Press **⌘R** (or the ▶︎ Run button).
+3. The app launches on the **Home** screen listing sample streams — tap one to
+   open the player.
+
+### 6. Verify tracking
+
+- On the player screen you should see a green **"FastPix tracking active"**
+  badge and the **Tracked metadata** card.
+- Play, pause, and seek the video, then open your
+  [FastPix dashboard](https://dashboard.fastpix.com) — the view and its metrics
+  appear there (allow a short delay for data to arrive).
+
+### Troubleshooting
+
+- **"Failed to install" on a device** — clean with **Product → Clean Build
+  Folder (⇧⌘K)** and run again. On the first install, trust the developer
+  profile under **Settings → General → VPN & Device Management** on the device.
+- **Package resolution errors** — **File → Packages → Reset Package Caches**,
+  then resolve again.
+- **No data on the dashboard** — confirm `workspaceKey` is set correctly and the
+  device/simulator has network access.
 
 ## App structure
 
