@@ -1,68 +1,87 @@
-**FastPix Video Data AVPlayer** enhances the integration steps with [AVPlayer](https://github.com/FastPix/iOS-data-avplayer-sdk), enabling the collection of player analytics. It enables automatic tracking of video performance metrics, making the data readily available on the [FastPix dashboard](https://dashboard.fastpix.com) for monitoring and analysis. While the SDK is developed in Swift, the published spm package currently includes only the Swift output.
+# FastPix Video Data for AVPlayer - iOS and tvOS video analytics and QoE monitoring SDK (Swift)
 
-# Key Features:
+[![Latest release](https://img.shields.io/github/v/release/FastPix/iOS-data-avplayer-sdk?sort=semver)](https://github.com/FastPix/iOS-data-avplayer-sdk/releases)
+[![Platform: iOS](https://img.shields.io/badge/platform-iOS%2013%2B%20%7C%20tvOS-000000?logo=apple&logoColor=white)](https://developer.apple.com/ios/)
+[![Swift](https://img.shields.io/badge/Swift-5.9-F05138?logo=swift&logoColor=white)](https://swift.org)
+[![SPM compatible](https://img.shields.io/badge/SwiftPM-compatible-brightgreen?logo=swift)](https://swift.org/package-manager/)
+[![license](https://img.shields.io/github/license/FastPix/iOS-data-avplayer-sdk)](https://github.com/FastPix/iOS-data-avplayer-sdk/blob/main/LICENSE)
 
-- **Track Viewer Engagement:** Gain insights into how users interact with your videos.
-- **Monitor Playback Quality:** Ensure video streaming by monitoring real-time metrics, including bitrate, buffering, startup performance, render quality, and playback failure errors.
-- **Error Management:** Identify and resolve playback failures quickly with detailed error reports.
-- **Customizable Tracking:** Flexible configuration to match your specific monitoring needs.
-- **Centralized Dashboard:** Visualize and compare metrics on the [FastPix dashboard](https://dashboard.fastpix.com) to make data-driven decisions.
-- **Compatible with tvOS:** Monitor and track video playback and analytics specifically on Apple TV when using AVPlayer, just like on iOS.
+The FastPix Video Data SDK for AVPlayer adds real-time video analytics and Quality of Experience (QoE) monitoring to any `AVPlayer`, `AVPlayerLayer`, or `AVPlayerViewController` in your iOS or tvOS app. It automatically collects viewer engagement, playback quality (bitrate, buffering, startup time, render quality), and playback errors, and surfaces them on the [FastPix dashboard](https://dashboard.fastpix.com) for monitoring and analysis.
 
-# Prerequisites:
+**Works with:** iOS 13+ · tvOS · Swift 5.9 · Swift Package Manager · AVPlayer / AVPlayerLayer / AVPlayerViewController
 
-## Getting started with FastPix:
+📖 **Monitor AVPlayer docs:** https://fastpix.com/docs/ios-and-cross-platform-players/monitor-avplayer &nbsp;·&nbsp; 🚀 **Dashboard:** https://dashboard.fastpix.com
 
-To track and analyze video performance, initialize the SDK with your Workspace key (learn more about [Workspaces here](https://fastpix.com/docs/getting-started/set-up-a-workspace)):
+<br />
 
-1. **[Access the FastPix Dashboard](https://dashboard.fastpix.com)**: Log in and navigate to the Workspaces section.
-2. **Locate Your Workspace Key**: Copy the Workspace Key for client-side monitoring. Include this key in your Swift code on every page where you want to track video performance.
+## What you can track
 
-# Step 1: Installation and Setup:
+- **Viewer engagement** - understand how users interact with your videos.
+- **Playback quality** - real-time bitrate, buffering, startup performance, render quality, and playback-failure metrics.
+- **Error management** - detailed error reports to diagnose playback failures quickly.
+- **Custom metadata** - attach your own fields (`custom_1` to `custom_10`, plus named attributes like `video_title` and `video_id`) to every view.
+- **Centralized dashboard** - visualize and compare metrics on the FastPix dashboard.
+- **iOS and tvOS** - the same tracking works on Apple TV apps using AVPlayer.
 
-To get started with this SDK, you can integrate it into your project using **Swift Package Manager (SPM)**. Follow these steps to add the package to your iOS project.
+<br />
 
-1. **Open your Xcode project** and navigate to:
+## Before you begin
+
+You need:
+
+- **Xcode** and an app targeting **iOS 13.0 or later** (tvOS is also supported).
+- A **FastPix account** and a **Workspace Key** (see below).
+- An existing **AVPlayer**, **AVPlayerLayer**, or **AVPlayerViewController** in your app that you want to monitor.
+
+<br />
+
+## Get your Workspace Key
+
+You initialize the SDK with your Workspace Key (learn more about [Workspaces](https://fastpix.com/docs/getting-started/set-up-a-workspace)):
+
+1. Log in to the [FastPix Dashboard](https://dashboard.fastpix.com) and open the **Workspaces** section.
+2. Copy the **Workspace Key** for client-side monitoring. You pass this key as `workspace_id` in the metadata (shown below).
+
+<br />
+
+## Install the SDK with Swift Package Manager
+
+This SDK is distributed via Swift Package Manager.
+
+1. In Xcode, go to **File → Add Package Dependencies…**
+2. Enter the repository URL:
+
    ```
-   File → Add Packages…
+   https://github.com/FastPix/iOS-data-avplayer-sdk.git
    ```
 
-2. **Enter the repository URL** for the FastPix SDK:
-   ```
-   https://github.com/fastpix/iOS-video-data-avplayer.git
-   ```
+3. Choose the latest stable version and click **Add Package**.
+4. Select the target where you want to use the SDK and click **Add Package**.
 
-3. **Choose the latest stable version** and click `Add Package`.
+<br />
 
-4. **Select the target** where you want to use the SDK and click `Add Package`.
-
-
-# Step 2: Basic Integration
-
-To integrate this SDK into your project, follow these steps:
-
-## Import the SDK:
-
-First, import the SDK into your Swift project:
+## Import the SDK
 
 ```swift
 import FastpixVideoDataAVPlayer
 ```
 
-##  Initialize and Configure the SDK:
+<br />
 
-Create an instance of initAvPlayerTracking.
+## Initialize and attach the SDK to your player
+
+Create an instance of `initAvPlayerTracking`, build your metadata (all fields go under a `"data"` key), and attach it to your player. Hold a strong reference to the SDK instance so tracking lives for the whole playback session.
 
 ```swift
 import FastpixVideoDataAVPlayer
 
 let fpDataSDK = initAvPlayerTracking()
 
-let customMetadata = [
+let customMetadata: [String: Any] = [
   "data": [
-        workspace_id: "WORKSPACE_KEY", // Unique key to identify your workspace (replace with your actual workspace key)
-        video_title: "Test Content", // Title of the video being played (replace with the actual title of your video)
-        video_id: "f01a98s76t90p88i67x", // A unique identifier for the video (replace with your actual video ID for tracking purposes)
+        "workspace_id": "WORKSPACE_KEY", // Unique key to identify your workspace (replace with your actual workspace key)
+        "video_title": "Test Content", // Title of the video being played (replace with the actual title of your video)
+        "video_id": "f01a98s76t90p88i67x", // A unique identifier for the video (replace with your actual video ID for tracking purposes)
   ]
 ]
 
@@ -75,6 +94,7 @@ fpDataSDK.trackAvPlayerLayer(
 // Track AVPlayer
 fpDataSDK.trackAvPlayer(
     player: player,   // The AVPlayer instance managing the playback
+    playerLayer: playerLayer,   // The AVPlayerLayer for the player, or nil if you don't have one
     customMetadata: customMetadata
 )
 
@@ -85,36 +105,40 @@ fpDataSDK.trackAvPlayerController(
 )
 ```
 
-## Define player metadata
+> Use whichever `track…` method matches how you present video: `trackAvPlayerLayer` for a raw `AVPlayerLayer`, `trackAvPlayer` for an `AVPlayer`, or `trackAvPlayerController` for an `AVPlayerViewController`. You do not need to call all three.
 
-Check out the [user-passable metadata](https://fastpix.com/docs/working-with-video-data/pass-custom-metadata-to-metrics) documentation to see the metadata supported by FastPix. You can use custom metadata fields like `custom_1` to `custom_10` for your business logic, giving you the flexibility to pass any required values. Named attributes, such as `video_title` and `video_id`, can be passed directly as they are.
+<br />
+
+## Pass custom metadata
+
+See the [user-passable metadata](https://fastpix.com/docs/working-with-video-data/pass-custom-metadata-to-metrics) documentation for every field FastPix supports. Named attributes such as `video_title` and `video_id` are passed directly, and you can use `custom_1` to `custom_10` for your own business logic. All fields go under the `"data"` key:
 
 ```swift
-let customMetadata = [
+let customMetadata: [String: Any] = [
     "data": [
-        workspace_id: "WORKSPACE_KEY", // Unique key to identify your workspace (replace with your actual workspace key)
-        video_title: "Test Content", // Title of the video being played (replace with the actual title of your video)
-        video_id: "f01a98s76t90p88i67x", // A unique identifier for the video (replace with your actual video ID for tracking purposes)
-        viewer_id: "user12345", // A unique identifier for the viewer (e.g., user ID, session ID, or any other unique value)
-        video_content_type: "series", // Type of content being played (e.g., series, movie, etc.)
-        video_stream_type: "on-demand", // Type of streaming (e.g., live, on-demand)
+        "workspace_id": "WORKSPACE_KEY", // Unique key to identify your workspace (replace with your actual workspace key)
+        "video_title": "Test Content", // Title of the video being played (replace with the actual title of your video)
+        "video_id": "f01a98s76t90p88i67x", // A unique identifier for the video (replace with your actual video ID for tracking purposes)
+        "viewer_id": "user12345", // A unique identifier for the viewer (e.g., user ID, session ID, or any other unique value)
+        "video_content_type": "series", // Type of content being played (e.g., series, movie, etc.)
+        "video_stream_type": "on-demand", // Type of streaming (e.g., live, on-demand)
 
         // Custom fields for additional business logic
-        custom_1: "", // Use this field to pass any additional data needed for your specific business logic
-        custom_2: "", // Use this field to pass any additional data needed for your specific business logic
+        "custom_1": "", // Use this field to pass any additional data needed for your specific business logic
+        "custom_2": "", // Use this field to pass any additional data needed for your specific business logic
 
         // Add any additional metadata
     ]
 ]
 ```
 
-### Note:
+> **Tip:** Keep metadata consistent across video loads so comparisons are easy in your analytics dashboard.
 
-Keep metadata consistent across different video loads to make comparison easier in your analytics dashboard.
+<br />
 
-### Changing video streams in player
+## Handle video changes in the same player
 
-When your application plays multiple videos back-to-back in the same player, it’s essential to notify the FastPix SDK whenever a new video starts; possibly in scenarios like playlist content/ video series or any other video that user wants to play.
+When your app plays multiple videos back-to-back in the same player (playlists, a video series, or "up next"), notify the SDK when a new video starts so it begins a fresh view. The `dispatchEvent` metadata is a flat dictionary (no `"data"` wrapper):
 
 ```swift
 import FastpixVideoDataAVPlayer
@@ -135,12 +159,64 @@ fpDataSDK.dispatchEvent(event: "videoChange", metadata: [
 ])
 ```
 
-# Supporting tvOS :
- 
-Alongside iOS, the FastPix Video Data Core SDK also supports tvOS, allowing you to collect detailed playback analytics from your Apple TV apps when using AVPlayer. You can track viewer engagement, playback quality, errors, and custom events on Apple TV just as you do on iOS.
- 
-We’ve tested the SDK on tvOS to ensure a smooth experience, but if you encounter any issues or have questions, feel free to reach out to us.
- 
-# Detailed Usage:
+<br />
 
-For more detailed steps and advanced usage, please refer to the official [FastPix Documentation](https://fastpix.com/docs/ios-and-cross-platform-players/monitor-avplayer).
+## tvOS support
+
+The SDK also works on tvOS, so you can collect the same playback analytics from your Apple TV apps using AVPlayer: viewer engagement, playback quality, errors, and custom events, just as on iOS. If you run into any issues on tvOS, reach out to FastPix support.
+
+<br />
+
+## Which FastPix repo do I need?
+
+This SDK **collects analytics** from AVPlayer. For playback, uploads, and other platforms:
+
+| I want to... | Repo |
+|---|---|
+| Play FastPix video in an iOS app | [iOS-player](https://github.com/FastPix/iOS-player) |
+| Use the shared iOS data core this SDK builds on | [iOS-core-data-sdk](https://github.com/FastPix/iOS-core-data-sdk) |
+| Collect playback analytics on Roku | [Roku-data-core-SDK](https://github.com/FastPix/Roku-data-core-SDK) |
+| Play FastPix video on the web | [web-player-component](https://github.com/FastPix/web-player-component) |
+| Add resumable uploads to an iOS app | [iOS-Uploads](https://github.com/FastPix/iOS-Uploads) |
+
+Browse everything in the [FastPix organization](https://github.com/orgs/FastPix/repositories).
+
+<br />
+
+## FAQ
+
+**What does this SDK do?**
+It collects real-time video analytics and QoE metrics (engagement, bitrate, buffering, startup time, errors) from AVPlayer and reports them to the FastPix dashboard. See [What you can track](#what-you-can-track).
+
+**Which package URL do I add in Xcode?**
+`https://github.com/FastPix/iOS-data-avplayer-sdk.git`. See [Install the SDK](#install-the-sdk-with-swift-package-manager).
+
+**What is the module name to import?**
+`import FastpixVideoDataAVPlayer` (note the lowercase "p" in "Fastpix").
+
+**Where do I get my Workspace Key?**
+From the Workspaces section of the [FastPix Dashboard](https://dashboard.fastpix.com). See [Get your Workspace Key](#get-your-workspace-key).
+
+**Why must metadata keys be quoted, and what is the `"data"` wrapper?**
+`customMetadata` is a `[String: Any]` dictionary, so keys are string literals like `"workspace_id"`. For the `track…` methods, all fields are nested under a top-level `"data"` key; for `dispatchEvent`, the metadata is a flat dictionary. This matches the SDK's own [example app](https://github.com/FastPix/iOS-data-avplayer-sdk/tree/main/example).
+
+**Which platforms and versions are supported?**
+iOS 13.0+ and tvOS, Swift 5.9. See [Before you begin](#before-you-begin).
+
+**Does it support tvOS?**
+Yes - see [tvOS support](#tvos-support).
+
+<br />
+
+## Documentation
+
+- **Monitor AVPlayer (iOS and tvOS)**: [fastpix.com/docs/ios-and-cross-platform-players/monitor-avplayer](https://fastpix.com/docs/ios-and-cross-platform-players/monitor-avplayer)
+- **Pass custom metadata to metrics**: [fastpix.com/docs/working-with-video-data/pass-custom-metadata-to-metrics](https://fastpix.com/docs/working-with-video-data/pass-custom-metadata-to-metrics)
+- **Set up a workspace**: [fastpix.com/docs/getting-started/set-up-a-workspace](https://fastpix.com/docs/getting-started/set-up-a-workspace)
+- **Runnable example app**: [example/](https://github.com/FastPix/iOS-data-avplayer-sdk/tree/main/example)
+
+<br />
+
+## License
+
+This SDK is released under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
