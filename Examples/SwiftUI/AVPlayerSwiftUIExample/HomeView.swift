@@ -22,16 +22,16 @@ private let samples: [SampleVideo] = [
     SampleVideo(
         id: "sample-video-001",
         title: "Big Buck Bunny",
-        subtitle: "Blender Foundation · HLS",
+        subtitle: "On-demand · HLS",
         duration: "9:56",
-        url: URL(string: "https://stream.fastpix.io/16ac212a-0f4f-49c5-9fd7-a42d9ff61541.m3u8")!
+        url: URL(string: "https://stream.fastpix.com/f7a1becb-b08a-4d5b-8b09-9f679194705c.m3u8")!
     ),
     SampleVideo(
         id: "sample-video-002",
-        title: "Apple Basic Stream",
-        subtitle: "Multi-variant · HLS",
+        title: "Spider-Man Noir",
+        subtitle: "On-demand · HLS",
         duration: "10:34",
-        url: URL(string: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8")!
+        url: URL(string: "https://stream.fastpix.com/7c8d5087-edf7-462f-a1b3-e2fbd30747fa.m3u8")!
     )
 ]
 
