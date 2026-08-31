@@ -1,0 +1,8 @@
+# Xcode
+xcuserdata/
+*.xcuserstate
+.build/
+.DS_Store
+
+# SwiftPM resolved (regenerated per checkout for local-package examples)
+**/xcshareddata/swiftpm/Package.resolved
