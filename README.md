@@ -25,17 +25,34 @@ The FastPix Video Data SDK for AVPlayer adds real-time video analytics and Quali
 
 <br />
 
-## Before you begin
+## Start here
 
-You need:
+If you are adding this SDK for the first time, follow these steps in order:
 
-- **Xcode** and an app targeting **iOS 13.0 or later** (tvOS is also supported).
-- A **FastPix account** and a **Workspace Key** (see below).
-- An existing **AVPlayer**, **AVPlayerLayer**, or **AVPlayerViewController** in your app that you want to monitor.
+1. [Get your Workspace Key](#1-get-your-workspace-key)
+2. [Install the SDK with Swift Package Manager](#2-install-the-sdk-with-swift-package-manager)
+3. [Import the SDK](#3-import-the-sdk)
+4. [Initialize and attach the SDK to your player](#4-initialize-and-attach-the-sdk-to-your-player)
+5. [Pass custom metadata](#5-pass-custom-metadata)
+6. [Handle video changes in the same player](#6-handle-video-changes-in-the-same-player)
+7. [Verify it works](#7-verify-it-works)
 
 <br />
 
-## Get your Workspace Key
+## Before you begin
+
+Make sure you have the following ready:
+
+| Requirement | Details |
+|---|---|
+| **Xcode** | With an app project targeting **iOS 13.0 or later**. |
+| **A FastPix account** | Free to create at the [FastPix Dashboard](https://dashboard.fastpix.com). |
+| **A Workspace Key** | Your client-side monitoring key. Get it in [step 1](#1-get-your-workspace-key). |
+| **An AVPlayer to monitor** | An existing `AVPlayer`, `AVPlayerLayer`, or `AVPlayerViewController` in your app. |
+
+<br />
+
+## 1. Get your Workspace Key
 
 You initialize the SDK with your Workspace Key (learn more about [Workspaces](https://fastpix.com/docs/getting-started/set-up-a-workspace)):
 
@@ -44,7 +61,7 @@ You initialize the SDK with your Workspace Key (learn more about [Workspaces](ht
 
 <br />
 
-## Install the SDK with Swift Package Manager
+## 2. Install the SDK with Swift Package Manager
 
 This SDK is distributed via Swift Package Manager.
 
@@ -58,9 +75,17 @@ This SDK is distributed via Swift Package Manager.
 3. Choose the latest stable version and click **Add Package**.
 4. Select the target where you want to use the SDK and click **Add Package**.
 
+Xcode resolves the package and its dependency (`FastpixiOSVideoDataCore`) automatically. To confirm resolution from the command line, run this in your project directory:
+
+```bash
+xcodebuild -resolvePackageDependencies
+```
+
+The output lists the resolved packages, including `FastpixVideoDataAVPlayer` and `FastpixiOSVideoDataCore`.
+
 <br />
 
-## Import the SDK
+## 3. Import the SDK
 
 ```swift
 import FastpixVideoDataAVPlayer
@@ -68,7 +93,7 @@ import FastpixVideoDataAVPlayer
 
 <br />
 
-## Initialize and attach the SDK to your player
+## 4. Initialize and attach the SDK to your player
 
 Create an instance of `initAvPlayerTracking`, build your metadata (all fields go under a `"data"` key), and attach it to your player. Hold a strong reference to the SDK instance so tracking lives for the whole playback session.
 
@@ -109,7 +134,7 @@ fpDataSDK.trackAvPlayerController(
 
 <br />
 
-## Pass custom metadata
+## 5. Pass custom metadata
 
 See the [user-passable metadata](https://fastpix.com/docs/working-with-video-data/pass-custom-metadata-to-metrics) documentation for every field FastPix supports. Named attributes such as `video_title` and `video_id` are passed directly, and you can use `custom_1` to `custom_10` for your own business logic. All fields go under the `"data"` key:
 
@@ -136,7 +161,7 @@ let customMetadata: [String: Any] = [
 
 <br />
 
-## Handle video changes in the same player
+## 6. Handle video changes in the same player
 
 When your app plays multiple videos back-to-back in the same player (playlists, a video series, or "up next"), notify the SDK when a new video starts so it begins a fresh view. The `dispatchEvent` metadata is a flat dictionary (no `"data"` wrapper):
 
@@ -151,13 +176,23 @@ fpDataSDK.trackAvPlayerLayer(
 )
 
 fpDataSDK.dispatchEvent(event: "videoChange", metadata: [
-    video_id: "123def", // Unique identifier for the new video
-    video_title: "Daalcheeni", // Title of the new video
-    video_series: "Comedy Capsule", // Series name if applicable
+    "video_id": "123def", // Unique identifier for the new video
+    "video_title": "Daalcheeni", // Title of the new video
+    "video_series": "Comedy Capsule", // Series name if applicable
 
     // ... and other metadata
 ])
 ```
+
+<br />
+
+## 7. Verify it works
+
+1. Build and run your app, then play a video through the `AVPlayer` you attached the SDK to.
+2. Log in to the [FastPix Dashboard](https://dashboard.fastpix.com) and open the **Video Data** section.
+3. Within a few minutes of playback, your view appears with its metrics (startup time, bitrate, buffering) and any custom metadata you passed, such as `video_title` and `video_id`.
+
+If no data appears, confirm that `workspace_id` is set to your real Workspace Key, that you kept a strong reference to the `initAvPlayerTracking()` instance for the whole playback session, and that the device has network access.
 
 <br />
 
@@ -189,13 +224,13 @@ Browse everything in the [FastPix organization](https://github.com/orgs/FastPix/
 It collects real-time video analytics and QoE metrics (engagement, bitrate, buffering, startup time, errors) from AVPlayer and reports them to the FastPix dashboard. See [What you can track](#what-you-can-track).
 
 **Which package URL do I add in Xcode?**
-`https://github.com/FastPix/iOS-data-avplayer-sdk.git`. See [Install the SDK](#install-the-sdk-with-swift-package-manager).
+`https://github.com/FastPix/iOS-data-avplayer-sdk.git`. See [Install the SDK](#2-install-the-sdk-with-swift-package-manager).
 
 **What is the module name to import?**
 `import FastpixVideoDataAVPlayer` (note the lowercase "p" in "Fastpix").
 
 **Where do I get my Workspace Key?**
-From the Workspaces section of the [FastPix Dashboard](https://dashboard.fastpix.com). See [Get your Workspace Key](#get-your-workspace-key).
+From the Workspaces section of the [FastPix Dashboard](https://dashboard.fastpix.com). See [Get your Workspace Key](#1-get-your-workspace-key).
 
 **Why must metadata keys be quoted, and what is the `"data"` wrapper?**
 `customMetadata` is a `[String: Any]` dictionary, so keys are string literals like `"workspace_id"`. For the `track…` methods, all fields are nested under a top-level `"data"` key; for `dispatchEvent`, the metadata is a flat dictionary. This matches the SDK's own [example app](https://github.com/FastPix/iOS-data-avplayer-sdk/tree/main/example).
